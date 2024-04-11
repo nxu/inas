@@ -1,0 +1,23 @@
+{
+    "name": "nxu/nap56",
+    "description": "Management script for a dockerized apache2+php.5.6 environment",
+    "type": "project",
+    "require": {
+        "symfony/console": "^7.0"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Nxu\\Nap56\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Zsolt Fekete",
+            "email": "nxu@nxu.hu"
+        }
+    ],
+    "require-dev": {
+        "laravel/pint": "^1.15"
+    }
+}
