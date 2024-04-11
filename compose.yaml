@@ -1,0 +1,27 @@
+name: apache-php5.6
+services:
+  web: 
+    image: nabunub/apache-php5.6:main
+    ports:
+      - "80:80"
+    networks:
+      - net
+    volumes:
+      - ~/code/:/var/www/html/
+      - ./sites/:/etc/apache2/sites-enabled/
+      - ./volumes/apache-logs/:/var/log/apache2/
+  mysql:
+    platform: linux/x86_64 # mysql:5.7 image does not support arm64
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3356:3306"
+    networks:
+      - net
+    volumes:
+      - ./volumes/mysql/:/var/lib/mysql
+
+networks:
+  net: {}
