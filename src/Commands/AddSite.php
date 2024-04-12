@@ -1,9 +1,10 @@
 <?php
 
-namespace Nxu\Nap56\Commands;
+namespace Nxu\Inas\Commands;
 
-use Nxu\Nap56\Config\Config;
-use Nxu\Nap56\Config\Helper;
+use Nxu\Inas\Config\Config;
+use Nxu\Inas\Config\Helper;
+use Nxu\Inas\Config\InstalledSite;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,55 +20,52 @@ class AddSite extends Command
     protected function configure(): void
     {
         $this->addArgument(
-            name: 'docroot',
-            mode: InputArgument::OPTIONAL,
-            description: 'The folder inside the project directory to use as document root. E.g: public',
-            suggestedValues: [
-                'public',
-                'public_html',
-                'www',
-            ],
+            name: 'php',
+            mode: InputArgument::REQUIRED,
+            description: 'The PHP version to use (5.6 or 7.1)',
+            suggestedValues: ['5.6', '7.1'],
         );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! is_dir(Helper::sitesFolder())) {
-            $output->writeln('<error>The config folder for nap56 does not exist. Please run `nap56 install`</error>');
+        if ($error = Helper::ensureInstalled()) {
+            $output->writeln($error);
+            return 255;
+        }
 
-            return 4;
+        if (! in_array($php = $input->getArgument('php'), ['5.6', '7.1'])) {
+            $output->writeln('<error>Invalid php version (5.6 and 7.1 supported)</error>');
+            return 1;
         }
 
         $config = Config::read(Helper::configFile());
 
-        $baseDir = Helper::currentProject();
+        $cwd = getcwd();
 
-        if (! Helper::isValidProject($config->projectsFolder, $baseDir)) {
-            $output->writeln('<error>Looks like the current folder is not actually a valid project</error>');
-            $output->writeln('Your projects folder is: '.$config->projectsFolder);
-
-            return 1;
-        }
-
-        $docroot = $input->getArgument('docroot');
-
-        if (is_file(Helper::siteConfig($baseDir))) {
-            $output->writeln("<error>Site $baseDir already exists</error>");
-
+        if ($config->hasSite($name = $this->getSiteName($cwd))) {
+            $output->writeln('<error>Site already exists</error>');
             return 2;
         }
 
-        if ($docroot && ! is_dir(getcwd().DIRECTORY_SEPARATOR.$docroot)) {
-            $output->writeln("<error>Docroot $docroot does not exist.</error>");
+        $config->sites[]  = new InstalledSite(
+            name: $name,
+            baseDir: $cwd,
+            docroot: is_dir($cwd.DIRECTORY_SEPARATOR.'public') ? 'public' : null,
+            php: $php,
+        );
 
-            return 3;
-        }
+        $config->save(Helper::configFile());
 
-        file_put_contents(Helper::siteConfig($baseDir), $this->vhostConfig($baseDir, $docroot));
-
-        $output->writeln("<info>Config for site $baseDir.test has been successfully created.</info>");
+        $output->writeln("<info>Config for site $name.test has been successfully created.</info>");
 
         return 0;
+    }
+
+    private function getSiteName(string $dir): string
+    {
+        $parts = explode(DIRECTORY_SEPARATOR, $dir);
+        return end($parts);
     }
 
     private function vhostConfig(string $baseDir, ?string $docRoot = null): string

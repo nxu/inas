@@ -1,43 +1,35 @@
 <?php
 
-namespace Nxu\Nap56\Config;
+namespace Nxu\Inas\Config;
 
 class Helper
 {
-    public static function isValidProject(string $projectsFolder, string $folder): bool
+    public static function ensureInstalled(): ?string
     {
-        return is_dir($projectsFolder.DIRECTORY_SEPARATOR.$folder);
-    }
+        if (! is_dir(self::serverConfigFolder())) {
+            return '<error>The config folder for inas does not exist. Please run `inas install`</error>';
+        }
 
-    public static function currentProject(): string
-    {
-        $folders = explode(DIRECTORY_SEPARATOR, getcwd());
-
-        return end($folders);
+        return null;
     }
 
     public static function configDirectory(): string
     {
-        return $_SERVER['HOME'].DIRECTORY_SEPARATOR.'.config'.DIRECTORY_SEPARATOR.'nap56';
+        return $_SERVER['HOME'].DIRECTORY_SEPARATOR.'.config'.DIRECTORY_SEPARATOR.'inas';
     }
 
     public static function configFile(): string
     {
-        return self::configDirectory().DIRECTORY_SEPARATOR.'nap56.json';
+        return self::configDirectory().DIRECTORY_SEPARATOR.'inas.json';
     }
 
-    public static function sitesFolder(): string
+    public static function serverConfigFolder(): string
     {
-        return self::configDirectory().DIRECTORY_SEPARATOR.'sites';
+        return self::configDirectory().DIRECTORY_SEPARATOR.'serverconfig';
     }
 
     public static function volumesFolder(): string
     {
         return self::configDirectory().DIRECTORY_SEPARATOR.'volumes';
-    }
-
-    public static function siteConfig(string $site): string
-    {
-        return self::sitesFolder().DIRECTORY_SEPARATOR.$site.'.conf';
     }
 }

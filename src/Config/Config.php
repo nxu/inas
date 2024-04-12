@@ -1,16 +1,33 @@
 <?php
 
-namespace Nxu\Nap56\Config;
+namespace Nxu\Inas\Config;
+
+use Bayfront\ArrayHelpers\Arr;
 
 class Config
 {
+    /** @param InstalledSite[] $sites */
     public function __construct(
-        public string $projectsFolder = '~/code'
+        public array $sites = [],
     ) {
-        if (str_contains($this->projectsFolder, '~')) {
-            // Hacky as fuck, but easier than assembling manually 🤷‍
-            $this->projectsFolder = exec("echo $this->projectsFolder");
+    }
+
+    public function hasSite(string $name): bool
+    {
+        foreach ($this->sites as $site) {
+            if ($site->name == $name) {
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    public function save(string $path): void
+    {
+        file_put_contents($path, json_encode([
+            'sites' => $this->sites,
+        ]));
     }
 
     public static function read(string $path): self
@@ -18,15 +35,11 @@ class Config
         $content = file_get_contents($path);
         $content = json_decode($content, true);
 
-        return new self(
-            projectsFolder: $content['projectsFolder']
-        );
-    }
+        $sites = Arr::get($content, 'sites', []);
+        $sites = array_map(fn ($site) => InstalledSite::fromConfig($site), $sites);
 
-    public function save(string $path): void
-    {
-        file_put_contents($path, json_encode([
-            'projectsFolder' => $this->projectsFolder,
-        ]));
+        return new self(
+            sites: $sites,
+        );
     }
 }

@@ -1,14 +1,17 @@
 {
-    "name": "nxu/nap56",
+    "name": "nxu/inas",
     "description": "Management script for a dockerized apache2+php.5.6 environment",
     "type": "project",
     "require": {
-        "symfony/console": "^7.0"
+        "php": ">=8.2",
+        "symfony/console": "^7.0",
+        "bayfrontmedia/php-array-helpers": "^2.0",
+        "illuminate/collections": "^11.3"
     },
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Nxu\\Nap56\\": "src/"
+            "Nxu\\Inas\\": "src/"
         }
     },
     "authors": [

@@ -1,28 +1,18 @@
 <?php
 
-namespace Nxu\Nap56\Commands;
+namespace Nxu\Inas\Commands;
 
-use Nxu\Nap56\Config\Config;
-use Nxu\Nap56\Config\Helper;
+use Nxu\Inas\Config\Config;
+use Nxu\Inas\Config\Helper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'install', description: 'Install nap56', )]
+#[AsCommand(name: 'install', description: 'Install inas', )]
 class Install extends Command
 {
-    protected function configure(): void
-    {
-        $this->addArgument(
-            name: 'folder',
-            mode: InputArgument::OPTIONAL,
-            description: 'Folder containing the projects you want to run with PHP 5.6. This will be mounted in the docker container',
-            default: '~/code',
-        );
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (is_dir($config = Helper::configDirectory())) {
@@ -35,15 +25,25 @@ class Install extends Command
             return 1;
         }
 
+        // Create config directory (~/.config/inas)
         mkdir(Helper::configDirectory());
-        mkdir(Helper::sitesFolder());
-        mkdir(Helper::volumesFolder());
 
-        $config = new Config(projectsFolder: $input->getArgument('folder'));
+        // Create server config folders
+        mkdir(Helper::serverConfigFolder());
+        mkdir(Helper::serverConfigFolder() . DIRECTORY_SEPARATOR . 'apache');
+        mkdir(Helper::serverConfigFolder() . DIRECTORY_SEPARATOR . 'nginx');
+
+        // Create volume folders
+        mkdir(Helper::volumesFolder());
+        mkdir(Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'apache_logs');
+        mkdir(Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'nginx_logs');
+        mkdir(Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'mysql');
+
+        // Create default config file
+        $config = new Config();
         $config->save(Helper::configFile());
 
-        $output->writeln('<info>nap56 installed successfully.</info>');
-        $output->writeln($config->projectsFolder.' will be mounted in the docker container');
+        $output->writeln('<info>inas installed successfully.</info>');
 
         return 0;
     }

@@ -1,15 +1,40 @@
-name: apache-php5.6
+name: inas
 services:
-  web: 
+  web56:
     image: nabunub/apache-php5.6:main
+    expose:
+      - "80"
+    networks:
+      - net
+    volumes:
+      - ~/code/szfakademia:/var/www/html/szfakademia
+      - ./config/apache/5.6/:/etc/apache2/sites-enabled/
+      - ./volumes/apache-logs/:/var/log/apache2/
+
+  web71:
+    image: nabunub/apache-php7.1:main
+    expose:
+      - "80"
+    networks:
+      - net
+    volumes:
+      - ~/code/szterzsebetpeksegapi:/var/www/html/szterzsebetpeksegapi
+      - ~/code/vpt:/var/www/html/vpt
+      - ./config/apache/7.1/:/etc/apache2/sites-enabled/
+      - ./volumes/apache-logs/:/var/log/apache2/
+
+  nginx:
+    image: nginx:1.25.4
     ports:
       - "80:80"
     networks:
       - net
     volumes:
-      - ~/code/:/var/www/html/
-      - ./sites/:/etc/apache2/sites-enabled/
-      - ./volumes/apache-logs/:/var/log/apache2/
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/includes:/etc/nginx/includes/
+      - ./config/nginx/sites/:/etc/nginx/conf.d/
+      - ./volumes/nginx-logs/:/var/log/nginx/
+
   mysql:
     platform: linux/x86_64 # mysql:5.7 image does not support arm64
     image: mysql:5.7
