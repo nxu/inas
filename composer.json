@@ -6,7 +6,8 @@
         "php": ">=8.2",
         "symfony/console": "^7.0",
         "bayfrontmedia/php-array-helpers": "^2.0",
-        "illuminate/collections": "^11.3"
+        "illuminate/collections": "^11.3",
+        "symfony/process": "^7.0"
     },
     "license": "MIT",
     "autoload": {

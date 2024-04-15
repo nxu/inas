@@ -18,6 +18,11 @@ class Helper
         return $_SERVER['HOME'].DIRECTORY_SEPARATOR.'.config'.DIRECTORY_SEPARATOR.'inas';
     }
 
+    public static function composeFile(): string
+    {
+        return self::configDirectory().DIRECTORY_SEPARATOR.'compose.yaml';
+    }
+
     public static function configFile(): string
     {
         return self::configDirectory().DIRECTORY_SEPARATOR.'inas.json';
