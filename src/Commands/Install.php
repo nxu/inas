@@ -15,11 +15,10 @@ class Install extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (is_dir($config = Helper::configDirectory())) {
-            $output->writeln('<comment>Looks like nap56 is already installed.</comment>');
+            $output->writeln('Looks like nap56 is already installed.');
 
-            // Do not run rm -rf automatically
-            // @see https://github.com/valvesoftware/steam-for-linux/issues/3671
             $output->writeln("Run `rm -rf $config` to delete current installation.");
+            $output->writeln("<error>Warning: this deletes all config and all databases.</error>");
 
             return 1;
         }
