@@ -1,4 +1,4 @@
-# 🤵‍ inas
+# 🤵‍inas
 A dockerized developer environment for working with legacy PHP projects. Includes Apache2, PHP 5.6, PHP 7.1 and MySQL 5.7.
 
 ## System requirements
@@ -6,4 +6,7 @@ A dockerized developer environment for working with legacy PHP projects. Include
 - Docker (or compatible software like OrbStack)
 
 ## Installation
-`composer global require nxu/inas`
+```sh
+sh <(curl https://raw.githubusercontent.com/nxu/inas/main/install.sh)
+```
+
