@@ -12,5 +12,6 @@ $application->add(new \Nxu\Inas\Commands\AddSite());
 $application->add(new \Nxu\Inas\Commands\RemoveSite());
 $application->add(new \Nxu\Inas\Commands\Generate());
 $application->add(new \Nxu\Inas\Commands\Start());
+$application->add(new \Nxu\Inas\Commands\Stop());
 
 $application->run();
