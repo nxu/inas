@@ -31,11 +31,13 @@ class AddSite extends Command
     {
         if ($error = Helper::ensureInstalled()) {
             $output->writeln($error);
+
             return 255;
         }
 
         if (! in_array($php = $input->getArgument('php'), ['5.6', '7.1'])) {
             $output->writeln('<error>Invalid php version (5.6 and 7.1 supported)</error>');
+
             return 1;
         }
 
@@ -45,10 +47,11 @@ class AddSite extends Command
 
         if ($config->hasSite($name = $this->getSiteName($cwd))) {
             $output->writeln('<error>Site already exists</error>');
+
             return 2;
         }
 
-        $config->sites[]  = new InstalledSite(
+        $config->sites[] = new InstalledSite(
             name: $name,
             baseDir: $cwd,
             docroot: is_dir($cwd.DIRECTORY_SEPARATOR.'public') ? 'public' : null,
@@ -65,6 +68,7 @@ class AddSite extends Command
     private function getSiteName(string $dir): string
     {
         $parts = explode(DIRECTORY_SEPARATOR, $dir);
+
         return end($parts);
     }
 

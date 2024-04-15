@@ -6,7 +6,6 @@ use Nxu\Inas\Config\Config;
 use Nxu\Inas\Config\Helper;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -30,14 +29,14 @@ class Install extends Command
 
         // Create server config folders
         mkdir(Helper::serverConfigFolder());
-        mkdir(Helper::serverConfigFolder() . DIRECTORY_SEPARATOR . 'apache');
-        mkdir(Helper::serverConfigFolder() . DIRECTORY_SEPARATOR . 'nginx');
+        mkdir(Helper::serverConfigFolder().DIRECTORY_SEPARATOR.'apache');
+        mkdir(Helper::serverConfigFolder().DIRECTORY_SEPARATOR.'nginx');
 
         // Create volume folders
         mkdir(Helper::volumesFolder());
-        mkdir(Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'apache_logs');
-        mkdir(Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'nginx_logs');
-        mkdir(Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'mysql');
+        mkdir(Helper::volumesFolder().DIRECTORY_SEPARATOR.'apache_logs');
+        mkdir(Helper::volumesFolder().DIRECTORY_SEPARATOR.'nginx_logs');
+        mkdir(Helper::volumesFolder().DIRECTORY_SEPARATOR.'mysql');
 
         // Create default config file
         $config = new Config();

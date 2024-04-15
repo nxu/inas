@@ -20,6 +20,7 @@ class RemoveSite extends Command
     {
         if ($error = Helper::ensureInstalled()) {
             $output->writeln($error);
+
             return 255;
         }
 
@@ -30,6 +31,7 @@ class RemoveSite extends Command
 
         if (! $config->hasSite($name)) {
             $output->writeln('<error>A config for the current directory does not exist</error>');
+
             return 2;
         }
 
@@ -45,6 +47,7 @@ class RemoveSite extends Command
     private function getSiteName(string $dir): string
     {
         $parts = explode(DIRECTORY_SEPARATOR, $dir);
+
         return end($parts);
     }
 }

@@ -7,12 +7,10 @@ use Nxu\Inas\Builders\NginxConfBuilder;
 use Nxu\Inas\Builders\VhostBuilder;
 use Nxu\Inas\Config\Config;
 use Nxu\Inas\Config\Helper;
-use Nxu\Inas\Config\InstalledSite;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use function Symfony\Component\String\b;
 
 #[AsCommand(
     name: 'generate',
@@ -24,6 +22,7 @@ class Generate extends Command
     {
         if ($error = Helper::ensureInstalled()) {
             $output->writeln($error);
+
             return 255;
         }
 
@@ -34,13 +33,13 @@ class Generate extends Command
 
         foreach ($config->sites as $site) {
             // Generate vhost file
-            $vhost = Helper::serverConfigFolder() . DIRECTORY_SEPARATOR . 'apache' . DIRECTORY_SEPARATOR . $site->name . '.conf';
+            $vhost = Helper::serverConfigFolder().DIRECTORY_SEPARATOR.'apache'.DIRECTORY_SEPARATOR.$site->name.'.conf';
             @unlink($vhost);
             file_put_contents($vhost, VhostBuilder::build($site));
             $vhostFiles[$site->php][] = "$vhost:/etc/apache2/sites-enabled/$site->name.conf";
 
             // Generate nginx config file
-            $conf = Helper::serverConfigFolder() . DIRECTORY_SEPARATOR . 'nginx' . DIRECTORY_SEPARATOR . $site->name . '.conf';
+            $conf = Helper::serverConfigFolder().DIRECTORY_SEPARATOR.'nginx'.DIRECTORY_SEPARATOR.$site->name.'.conf';
             @unlink($conf);
             file_put_contents($conf, NginxConfBuilder::build($site));
 
@@ -49,7 +48,7 @@ class Generate extends Command
 
         $yaml = $this->buildYaml($paths, $vhostFiles);
 
-        file_put_contents(Helper::configDirectory() . DIRECTORY_SEPARATOR . 'compose.yaml', $yaml);
+        file_put_contents(Helper::configDirectory().DIRECTORY_SEPARATOR.'compose.yaml', $yaml);
 
         $output->writeln('<info>Compose.yaml has been successfully generated</info>');
 
@@ -58,12 +57,12 @@ class Generate extends Command
 
     private function buildYaml(array $paths, array $vhostFiles): string
     {
-        $apacheLogDir = Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'apache_logs';
+        $apacheLogDir = Helper::volumesFolder().DIRECTORY_SEPARATOR.'apache_logs';
 
-        $nginxLogDir = Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'nginx_logs';
-        $nginxConfDir = Helper::serverConfigFolder() . DIRECTORY_SEPARATOR . 'nginx';
+        $nginxLogDir = Helper::volumesFolder().DIRECTORY_SEPARATOR.'nginx_logs';
+        $nginxConfDir = Helper::serverConfigFolder().DIRECTORY_SEPARATOR.'nginx';
 
-        $mysqlDir = Helper::volumesFolder() . DIRECTORY_SEPARATOR . 'mysql';
+        $mysqlDir = Helper::volumesFolder().DIRECTORY_SEPARATOR.'mysql';
 
         $sites56 = collect(Arr::get($paths, '5.6', []))
             ->map(fn ($line) => "      - \"$line\"")
