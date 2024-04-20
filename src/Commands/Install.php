@@ -2,6 +2,7 @@
 
 namespace Nxu\Inas\Commands;
 
+use Nxu\Inas\Builders\StaticConfigBuilder;
 use Nxu\Inas\Config\Config;
 use Nxu\Inas\Config\Helper;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -18,7 +19,7 @@ class Install extends Command
             $output->writeln('Looks like nap56 is already installed.');
 
             $output->writeln("Run `rm -rf $config` to delete current installation.");
-            $output->writeln("<error>Warning: this deletes all config and all databases.</error>");
+            $output->writeln('<error>Warning: this deletes all config and all databases.</error>');
 
             return 1;
         }
@@ -30,6 +31,12 @@ class Install extends Command
         mkdir(Helper::serverConfigFolder());
         mkdir(Helper::serverConfigFolder().DIRECTORY_SEPARATOR.'apache');
         mkdir(Helper::serverConfigFolder().DIRECTORY_SEPARATOR.'nginx');
+
+        $nginxConf = Helper::configDirectory().DIRECTORY_SEPARATOR.'nginx.conf';
+        file_put_contents($nginxConf, StaticConfigBuilder::buildNginxConf());
+
+        $proxyConf = Helper::configDirectory().DIRECTORY_SEPARATOR.'proxy.conf';
+        file_put_contents($proxyConf, StaticConfigBuilder::buildProxyConf());
 
         // Create volume folders
         mkdir(Helper::volumesFolder());

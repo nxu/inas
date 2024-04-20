@@ -40,6 +40,9 @@ class ComposeYamlGenerator
         $nginxLogDir = Helper::volumesFolder().DIRECTORY_SEPARATOR.'nginx_logs';
         $nginxConfDir = Helper::serverConfigFolder().DIRECTORY_SEPARATOR.'nginx';
 
+        $nginxConf = Helper::configDirectory().DIRECTORY_SEPARATOR.'nginx.conf';
+        $proxyConf = Helper::configDirectory().DIRECTORY_SEPARATOR.'proxy.conf';
+
         $mysqlDir = Helper::volumesFolder().DIRECTORY_SEPARATOR.'mysql';
 
         $sites56 = collect(Arr::get($paths, '5.6', []))
@@ -90,8 +93,8 @@ $vhosts71
     networks:
       - net
     volumes:
-      - "/Users/nxu/code/php56-example/config/nginx/nginx.conf:/etc/nginx/nginx.conf"
-      - "/Users/nxu/code/php56-example/config/nginx/includes:/etc/nginx/includes/"
+      - "$nginxConf:/etc/nginx/nginx.conf"
+      - "$proxyConf:/etc/nginx/includes/proxy.conf"
       - "$nginxConfDir/:/etc/nginx/conf.d/"
       - "$nginxLogDir/:/var/log/nginx/"
 
