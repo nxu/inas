@@ -64,6 +64,8 @@ Your sites will be able to access the MySQL5.7 server at the host `mysql`:
 ```dotenv
 DB_HOST=mysql
 DB_PORT=3306
+DB_USERNAME=root
+DB_PASSWORD=root
 ```
 
 - You can access this server from your host at `127.0.0.1:3356`.
