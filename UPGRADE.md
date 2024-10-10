@@ -11,5 +11,5 @@ inas self:update
 Replace the inas PHAR file:
 
 ```shell
-curl https://github.com/nxu/inas/raw/refs/tags/v2.0/bin/inas > /usr/local/bin/inas
+curl https://raw.githubusercontent.com/nxu/inas/2.0/bin/inas > /usr/local/bin/inas
 ```
