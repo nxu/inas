@@ -15,6 +15,11 @@ readonly class InstalledSite implements JsonSerializable
     ) {
     }
 
+    public function getServerPath(): string
+    {
+        return "/var/www/html/$this->name";
+    }
+
     public function jsonSerialize(): mixed
     {
         return [

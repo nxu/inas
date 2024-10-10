@@ -13,5 +13,7 @@ $application->add(new \Nxu\Inas\Commands\RemoveSite());
 $application->add(new \Nxu\Inas\Commands\Generate());
 $application->add(new \Nxu\Inas\Commands\Start());
 $application->add(new \Nxu\Inas\Commands\Stop());
+$application->add(new \Nxu\Inas\Commands\ExecPhp());
+$application->add(new \Nxu\Inas\Commands\ExecComposer());
 
 $application->run();
