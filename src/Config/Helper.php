@@ -37,4 +37,13 @@ class Helper
     {
         return self::configDirectory().DIRECTORY_SEPARATOR.'volumes';
     }
+
+    public static function getSiteName(?string $dir = null): string
+    {
+        $dir = $dir ?: getcwd();
+
+        $parts = explode(DIRECTORY_SEPARATOR, $dir);
+
+        return end($parts);
+    }
 }

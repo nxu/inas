@@ -45,7 +45,7 @@ class AddSite extends Command
 
         $cwd = getcwd();
 
-        if ($config->hasSite($name = $this->getSiteName($cwd))) {
+        if ($config->hasSite($name = Helper::getSiteName($cwd))) {
             $output->writeln('<error>Site already exists</error>');
 
             return 2;
@@ -63,13 +63,6 @@ class AddSite extends Command
         $output->writeln("<info>Config for site $name.test has been successfully created.</info>");
 
         return 0;
-    }
-
-    private function getSiteName(string $dir): string
-    {
-        $parts = explode(DIRECTORY_SEPARATOR, $dir);
-
-        return end($parts);
     }
 
     private function vhostConfig(string $baseDir, ?string $docRoot = null): string

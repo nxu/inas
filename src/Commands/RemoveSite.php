@@ -26,8 +26,7 @@ class RemoveSite extends Command
 
         $config = Config::read(Helper::configFile());
 
-        $cwd = getcwd();
-        $name = $this->getSiteName($cwd);
+        $name = Helper::getSiteName();
 
         if (! $config->hasSite($name)) {
             $output->writeln('<error>A config for the current directory does not exist</error>');
@@ -42,12 +41,5 @@ class RemoveSite extends Command
         $output->writeln("<info>Config for site $name.test has been successfully removed.</info>");
 
         return 0;
-    }
-
-    private function getSiteName(string $dir): string
-    {
-        $parts = explode(DIRECTORY_SEPARATOR, $dir);
-
-        return end($parts);
     }
 }

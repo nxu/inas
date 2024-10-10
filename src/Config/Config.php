@@ -12,6 +12,17 @@ class Config
     ) {
     }
 
+    public function get(string $name): ?InstalledSite
+    {
+        foreach ($this->sites as $site) {
+            if ($site->name === $name) {
+                return $site;
+            }
+        }
+
+        return null;
+    }
+
     public function hasSite(string $name): bool
     {
         foreach ($this->sites as $site) {
