@@ -12,8 +12,7 @@ readonly class InstalledSite implements JsonSerializable
         public string $baseDir,
         public ?string $docroot,
         public string $php,
-    ) {
-    }
+    ) {}
 
     public function getServerPath(): string
     {

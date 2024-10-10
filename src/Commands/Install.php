@@ -45,7 +45,7 @@ class Install extends Command
         mkdir(Helper::volumesFolder().DIRECTORY_SEPARATOR.'mysql');
 
         // Create default config file
-        $config = new Config();
+        $config = new Config;
         $config->save(Helper::configFile());
 
         $output->writeln('<info>inas installed successfully.</info>');

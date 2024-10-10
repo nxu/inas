@@ -25,7 +25,7 @@ class Generate extends Command
         }
 
         $config = Config::read(Helper::configFile());
-        (new ComposeYamlGenerator())->generate($config);
+        (new ComposeYamlGenerator)->generate($config);
 
         $output->writeln('<info>Compose.yaml has been successfully generated. Run `inas start` to start</info>');
 

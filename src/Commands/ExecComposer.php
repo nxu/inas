@@ -8,6 +8,4 @@ use Symfony\Component\Console\Attribute\AsCommand;
     name: 'composer',
     description: 'Runs composer with the PHP version and working directory of the current project',
 )]
-class ExecComposer extends ExecPhp
-{
-}
+class ExecComposer extends ExecPhp {}

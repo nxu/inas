@@ -31,7 +31,7 @@ class Start extends Command
         $config = Config::read($configFile);
 
         $output->writeln('Generating compose.yaml', OutputInterface::VERBOSITY_VERBOSE);
-        (new ComposeYamlGenerator())->generate($config);
+        (new ComposeYamlGenerator)->generate($config);
 
         $output->writeln('Running docker compose up', OutputInterface::VERBOSITY_VERBOSE);
         $output->writeln('Starting inas Docker environment');

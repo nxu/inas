@@ -9,8 +9,7 @@ class Config
     /** @param InstalledSite[] $sites */
     public function __construct(
         public array $sites = [],
-    ) {
-    }
+    ) {}
 
     public function get(string $name): ?InstalledSite
     {

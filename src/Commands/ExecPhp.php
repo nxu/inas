@@ -43,7 +43,7 @@ class ExecPhp extends Command
         }
 
         $workingDir = $site->getServerPath();
-        $image = 'inas-web' . str_replace('.', '', $site->php) . '-1';
+        $image = 'inas-web'.str_replace('.', '', $site->php).'-1';
         $command = implode(' ', $input->getRawTokens());
 
         if (empty($command)) {
@@ -62,6 +62,7 @@ class ExecPhp extends Command
 
         if ($stderr = $process->getErrorOutput()) {
             $errorOutput->write($stderr);
+
             return $process->getExitCode();
         }
 
