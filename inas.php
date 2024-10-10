@@ -16,7 +16,7 @@ $application->add(new \Nxu\Inas\Commands\Stop);
 $application->add(new \Nxu\Inas\Commands\ExecPhp);
 $application->add(new \Nxu\Inas\Commands\ExecComposer);
 
-$updateManager = new \SelfUpdate\SelfUpdateManager('inas', '2.0', 'nxu/inas');
+$updateManager = new \SelfUpdate\SelfUpdateManager('inas', '2.0.1', 'nxu/inas');
 $application->add(new \SelfUpdate\SelfUpdateCommand($updateManager));
 
 $application->run();
