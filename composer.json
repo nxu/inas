@@ -8,7 +8,8 @@
         "symfony/console": "^7.0",
         "bayfrontmedia/php-array-helpers": "^2.0",
         "illuminate/collections": "^11.3",
-        "symfony/process": "^7.0"
+        "symfony/process": "^7.0",
+        "consolidation/self-update": "3.0.0-alpha2"
     },
     "license": "MIT",
     "autoload": {
