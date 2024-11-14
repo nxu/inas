@@ -54,6 +54,7 @@ class ExecPhp extends Command
 
         $process = Process::fromShellCommandline("docker exec -w '$workingDir' -it $image $command");
         $process->setTty(true);
+        $process->setTimeout(null);
         $process->run();
 
         if ($stdout = $process->getOutput()) {
