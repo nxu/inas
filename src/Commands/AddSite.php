@@ -22,8 +22,8 @@ class AddSite extends Command
         $this->addArgument(
             name: 'php',
             mode: InputArgument::REQUIRED,
-            description: 'The PHP version to use (5.6 or 7.1)',
-            suggestedValues: ['5.6', '7.1'],
+            description: 'The PHP version to use (5.2, 5.6 or 7.1)',
+            suggestedValues: ['5.2', '5.6', '7.1'],
         );
     }
 
@@ -35,8 +35,8 @@ class AddSite extends Command
             return 255;
         }
 
-        if (! in_array($php = $input->getArgument('php'), ['5.6', '7.1'])) {
-            $output->writeln('<error>Invalid php version (5.6 and 7.1 supported)</error>');
+        if (! in_array($php = $input->getArgument('php'), ['5.2', '5.6', '7.1'])) {
+            $output->writeln('<error>Invalid php version (5.2, 5.6 and 7.1 supported)</error>');
 
             return 1;
         }

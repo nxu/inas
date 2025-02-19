@@ -45,6 +45,10 @@ class ComposeYamlGenerator
 
         $mysqlDir = Helper::volumesFolder().DIRECTORY_SEPARATOR.'mysql';
 
+        $sites52 = collect(Arr::get($paths, '5.2', []))
+          ->map(fn ($line) => "      - \"$line\"")
+          ->join("\n");
+
         $sites56 = collect(Arr::get($paths, '5.6', []))
             ->map(fn ($line) => "      - \"$line\"")
             ->join("\n");
@@ -52,6 +56,10 @@ class ComposeYamlGenerator
         $sites71 = collect(Arr::get($paths, '7.1', []))
             ->map(fn ($line) => "      - \"$line\"")
             ->join("\n");
+
+        $vhosts52 = collect(Arr::get($vhostFiles, '5.2', []))
+              ->map(fn ($line) => "      - \"$line\"")
+              ->join("\n");
 
         $vhosts56 = collect(Arr::get($vhostFiles, '5.6', []))
             ->map(fn ($line) => "      - \"$line\"")
@@ -64,6 +72,17 @@ class ComposeYamlGenerator
         return <<<YAML
 name: inas
 services:
+  web52:
+    image: nabunub/apache-php5.6:main
+    expose:
+      - "80"
+    networks:
+      - net
+    volumes:
+      - "$apacheLogDir/:/var/log/apache2/"
+$sites52
+$vhosts52
+
   web56:
     image: nabunub/apache-php5.6:main
     expose:

@@ -9,6 +9,7 @@ class NginxConfBuilder
     public static function build(InstalledSite $site): string
     {
         $server = match ($site->php) {
+            '5.2' => 'web52',
             '5.6' => 'web56',
             '7.1' => 'web71',
         };
