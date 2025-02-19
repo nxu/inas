@@ -4,7 +4,7 @@
 Replace the inas PHAR file:
 
 ```shell
-curl https://raw.githubusercontent.com/nxu/inas/2.2/bin/inas > /usr/local/bin/inas
+curl https://raw.githubusercontent.com/nxu/inas/2.2.1/bin/inas > /usr/local/bin/inas
 ```
 
 
