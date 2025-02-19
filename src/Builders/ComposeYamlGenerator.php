@@ -73,7 +73,7 @@ class ComposeYamlGenerator
 name: inas
 services:
   web52:
-    image: nabunub/apache-php5.6:main
+    image: nabunub/apache-php5.2:main
     expose:
       - "80"
     networks:
